@@ -15,7 +15,7 @@ const menuItems = [
         viewBox="0 0 24 24"
         strokeWidth="1.8"
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -35,7 +35,7 @@ const menuItems = [
         viewBox="0 0 24 24"
         strokeWidth="1.8"
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -55,7 +55,7 @@ const menuItems = [
         viewBox="0 0 24 24"
         strokeWidth="1.8"
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -75,7 +75,7 @@ const menuItems = [
         viewBox="0 0 24 24"
         strokeWidth="1.8"
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -96,7 +96,7 @@ const menuItems = [
         viewBox="0 0 24 24"
         strokeWidth="1.8"
         stroke="currentColor"
-        className="w-5 h-5"
+        className="h-5 w-5"
       >
         <path
           strokeLinecap="round"
@@ -113,15 +113,51 @@ const menuItems = [
   },
 ];
 
-function SidebarContent({ onNavigate, newMessages }) {
+function BackToStoreLink({ onNavigate }) {
+  return (
+    <Link
+      href="/"
+      onClick={onNavigate}
+      className="flex items-center gap-3 rounded-xl border border-[#E9DED6] bg-[#FFF9F5] px-4 py-3.5 text-base font-semibold text-[#2D2723] transition hover:border-[#E98B50] hover:bg-[#FFF1E8] hover:text-[#C96C35]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.8"
+        stroke="currentColor"
+        className="h-5 w-5 text-[#E98B50]"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M10.5 6.75 4.5 12l6 5.25M19.5 12h-15"
+        />
+      </svg>
+
+      <span>Back to Store</span>
+    </Link>
+  );
+}
+
+function SidebarContent({
+  onNavigate,
+  newMessages,
+  mobile = false,
+}) {
   const pathname = usePathname();
 
   return (
- <div className="flex flex-col h-full bg-white border-r border-[#E9DED6]">
-
+    <div className="flex h-full flex-col border-r border-[#E9DED6] bg-white">
+      {/* Mobile Back to Store */}
+      {mobile && (
+        <div className="border-b border-[#E9DED6] px-4 py-4">
+          <BackToStoreLink onNavigate={onNavigate} />
+        </div>
+      )}
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-6">
         {menuItems.map((item) => {
           const active =
             item.href === "/admin"
@@ -141,12 +177,15 @@ function SidebarContent({ onNavigate, newMessages }) {
             >
               <div className="flex items-center gap-3">
                 {item.icon}
-                <span className="font-medium">{item.name}</span>
+
+                <span className="font-medium">
+                  {item.name}
+                </span>
               </div>
 
               {item.isContact && newMessages > 0 && (
                 <span
-                  className={`min-w-6 h-6 px-2 rounded-full flex items-center justify-center text-xs font-bold ${
+                  className={`flex h-6 min-w-6 items-center justify-center rounded-full px-2 text-xs font-bold ${
                     active
                       ? "bg-white text-[#E98B50]"
                       : "bg-[#E98B50] text-white"
@@ -160,31 +199,12 @@ function SidebarContent({ onNavigate, newMessages }) {
         })}
       </nav>
 
-      {/* Back to Store */}
-      <div className="px-4 pb-5">
-        <Link
-          href="/"
-          onClick={onNavigate}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-[#2D2723] hover:bg-[#FFF9F5] hover:text-[#C96C35] transition-all"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.8"
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10.5 6.75 4.5 12l6 5.25M19.5 12h-15"
-            />
-          </svg>
-
-          <span className="font-medium">Back to Store</span>
-        </Link>
-      </div>
+      {/* Desktop Back to Store */}
+      {!mobile && (
+        <div className="px-4 pb-5">
+          <BackToStoreLink onNavigate={onNavigate} />
+        </div>
+      )}
     </div>
   );
 }
@@ -214,14 +234,19 @@ export default function AdminSidebar() {
           setNewMessages(count);
         }
       } catch (error) {
-        console.error("Failed to fetch contact messages:", error);
+        console.error(
+          "Failed to fetch contact messages:",
+          error
+        );
       }
     };
 
     fetchNewMessages();
 
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchNewMessages, 30000);
+    const interval = setInterval(
+      fetchNewMessages,
+      30000
+    );
 
     return () => {
       cancelled = true;
@@ -232,7 +257,7 @@ export default function AdminSidebar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#E9DED6] px-4 py-3 flex items-center justify-between">
+      <div className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-[#E9DED6] bg-white px-4 py-3 lg:hidden">
         <Link
           href="/admin"
           className="text-xl font-bold text-[#E98B50]"
@@ -241,9 +266,11 @@ export default function AdminSidebar() {
         </Link>
 
         <button
+          type="button"
           onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-lg text-[#2D2723] hover:bg-[#FFF9F5]"
+          className="flex h-11 w-11 items-center justify-center rounded-xl text-[#2D2723] transition hover:bg-[#FFF9F5] hover:text-[#C96C35]"
           aria-label="Open admin menu"
+          aria-expanded={mobileOpen}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +278,7 @@ export default function AdminSidebar() {
             viewBox="0 0 24 24"
             strokeWidth="1.8"
             stroke="currentColor"
-            className="w-6 h-6"
+            className="h-6 w-6"
           >
             <path
               strokeLinecap="round"
@@ -263,29 +290,32 @@ export default function AdminSidebar() {
       </div>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block fixed top-16 left-0 bottom-0 w-64 z-40">
+      <aside className="fixed bottom-0 left-0 top-16 z-40 hidden w-64 lg:block">
         <SidebarContent newMessages={newMessages} />
       </aside>
 
       {/* Mobile Overlay */}
       {mobileOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-[60] bg-black/30"
+          className="fixed inset-0 z-[60] bg-black/30 lg:hidden"
           onClick={() => setMobileOpen(false)}
         >
           <aside
-            className="absolute left-0 top-0 bottom-0 w-72 max-w-[85vw]"
+            className="absolute bottom-0 left-0 top-0 w-72 max-w-[85vw]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative h-full">
               <SidebarContent
                 newMessages={newMessages}
+                mobile
                 onNavigate={() => setMobileOpen(false)}
               />
 
+              {/* Close Menu */}
               <button
+                type="button"
                 onClick={() => setMobileOpen(false)}
-                className="absolute top-5 right-4 p-2 rounded-lg bg-white text-[#2D2723] shadow-sm"
+                className="absolute right-4 top-5 flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[#2D2723] shadow-sm transition hover:bg-[#FFF1E8] hover:text-[#C96C35]"
                 aria-label="Close admin menu"
               >
                 <svg
@@ -294,7 +324,7 @@ export default function AdminSidebar() {
                   viewBox="0 0 24 24"
                   strokeWidth="1.8"
                   stroke="currentColor"
-                  className="w-5 h-5"
+                  className="h-5 w-5"
                 >
                   <path
                     strokeLinecap="round"
