@@ -32,20 +32,20 @@ export default function ProductCard({ product }) {
             <div className="flex h-full w-full items-center justify-center p-5 sm:p-7">
               <img
                 src={product.image}
+                onError={() => console.log("IMAGE FAILED:", product.name, product.image)}
                 alt={product.name}
-                className={`object-contain transition-transform duration-500 group-hover:scale-[1.03] ${
-                  product.category === "Watches"
-                    ? "max-h-[72%] max-w-[72%]"
-                    : product.category === "Bags"
-                      ? "max-h-[76%] max-w-[84%]"
-                      : product.category === "Shoes"
-                        ? "max-h-[78%] max-w-[84%]"
-                        : product.category === "Beauty"
-                          ? "max-h-[78%] max-w-[72%]"
-                          : product.category === "Accessories"
-                            ? "max-h-[76%] max-w-[76%]"
-                            : "max-h-[82%] max-w-[78%]"
-                }`}
+                className={`object-contain transition-transform duration-500 group-hover:scale-[1.03] ${product.category === "Watches"
+                  ? "max-h-[72%] max-w-[72%]"
+                  : product.category === "Bags"
+                    ? "max-h-[76%] max-w-[84%]"
+                    : product.category === "Shoes"
+                      ? "max-h-[78%] max-w-[84%]"
+                      : product.category === "Beauty"
+                        ? "max-h-[78%] max-w-[72%]"
+                        : product.category === "Accessories"
+                          ? "max-h-[76%] max-w-[76%]"
+                          : "max-h-[82%] max-w-[78%]"
+                  }`}
               />
             </div>
           ) : (
