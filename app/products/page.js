@@ -2,38 +2,65 @@ import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
 import SortSelect from "@/components/SortSelect";
+import connectDB from "@/lib/mongodb";
+import Product from "@/models/Product";
 
 // =========================================
 // GET PRODUCTS
 // =========================================
 
 async function getProducts(category, search, sort) {
-  const params = new URLSearchParams();
+  await connectDB();
+
+  let query = {};
 
   if (category) {
-    params.set("category", category);
+    query.category = category;
   }
 
   if (search) {
-    params.set("search", search);
+    query.$or = [
+      {
+        name: {
+          $regex: search,
+          $options: "i",
+        },
+      },
+      {
+        category: {
+          $regex: search,
+          $options: "i",
+        },
+      },
+    ];
   }
 
-  if (sort) {
-    params.set("sort", sort);
+  let sortOption = {};
+
+  if (sort === "price-asc") {
+    sortOption.price = 1;
   }
 
-  const response = await fetch(
-    `http://localhost:3000/api/products?${params.toString()}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
+  if (sort === "price-desc") {
+    sortOption.price = -1;
   }
 
-  return response.json();
+  if (sort === "name-asc") {
+    sortOption.name = 1;
+  }
+
+  if (sort === "name-desc") {
+    sortOption.name = -1;
+  }
+
+  const products = await Product.find(query)
+    .sort(sortOption)
+    .lean();
+
+  return products.map((product) => ({
+    ...product,
+    _id: product._id.toString(),
+  }));
 }
 
 // =========================================
@@ -171,11 +198,10 @@ export default async function Products({
 
                 <Link
                   href="/products"
-                  className={`flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2 text-base font-semibold transition ${
-                    !category
-                      ? "border-[#E98B50] bg-[#E98B50] text-white"
-                      : "border-[#E9DED6] bg-white text-[#2D2723] hover:border-[#E98B50] hover:bg-[#FFF9F5]"
-                  }`}
+                  className={`flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2 text-base font-semibold transition ${!category
+                    ? "border-[#E98B50] bg-[#E98B50] text-white"
+                    : "border-[#E9DED6] bg-white text-[#2D2723] hover:border-[#E98B50] hover:bg-[#FFF9F5]"
+                    }`}
                 >
                   All
                 </Link>
@@ -207,11 +233,10 @@ export default async function Products({
                     <Link
                       key={item}
                       href={`/products?${categoryParams.toString()}`}
-                      className={`flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2 text-base font-semibold transition ${
-                        category === item
-                          ? "border-[#E98B50] bg-[#E98B50] text-white"
-                          : "border-[#E9DED6] bg-white text-[#2D2723] hover:border-[#E98B50] hover:bg-[#FFF9F5]"
-                      }`}
+                      className={`flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2 text-base font-semibold transition ${category === item
+                        ? "border-[#E98B50] bg-[#E98B50] text-white"
+                        : "border-[#E9DED6] bg-white text-[#2D2723] hover:border-[#E98B50] hover:bg-[#FFF9F5]"
+                        }`}
                     >
                       {item}
                     </Link>

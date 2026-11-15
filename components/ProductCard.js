@@ -32,7 +32,6 @@ export default function ProductCard({ product }) {
             <div className="flex h-full w-full items-center justify-center p-5 sm:p-7">
               <img
                 src={product.image}
-                onError={() => console.log("IMAGE FAILED:", product.name, product.image)}
                 alt={product.name}
                 className={`object-contain transition-transform duration-500 group-hover:scale-[1.03] ${product.category === "Watches"
                   ? "max-h-[72%] max-w-[72%]"
