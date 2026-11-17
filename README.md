@@ -61,19 +61,7 @@ cd cartiva
 npm install
 ```
 
-### 4. Configure Environment Variables
-
-Create a `.env.local` file in the project root:
-
-```env
-MONGODB_URI=mongodb://localhost:27017/cartiva
-```
-
-Make sure your local MongoDB server is running.
-
-Add any additional environment variables required by your authentication configuration.
-
-### 5. Start the Development Server
+### 4. Start the Development Server
 
 ```bash
 npm run dev
