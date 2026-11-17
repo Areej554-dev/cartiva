@@ -1,8 +1,10 @@
 # 🛒 Cartiva – E-Commerce Web Application
 
-Cartiva is a full-stack e-commerce web application built with Next.js and MongoDB. It provides a platform for browsing products, managing shopping carts, and handling user authentication.
+Cartiva is a full-stack e-commerce web application built with Next.js and MongoDB. It provides users with a platform to browse products, search and filter the catalog, and enjoy an online shopping experience.
 
-🚀 **Live Demo:** [Visit Cartiva](https://YOUR-VERCEL-URL.vercel.app)
+## 🌐 Live Demo
+
+🚀 **[Visit Cartiva](https://cartiva-iota.vercel.app/)**
 
 ## ✨ Features
 
@@ -12,9 +14,8 @@ Cartiva is a full-stack e-commerce web application built with Next.js and MongoD
 - ↕️ Sort products by price and name
 - 👤 User authentication
 - 🛒 Shopping cart functionality
-- 📦 Product management
 - 📱 Responsive user interface
-- ☁️ Cloud database integration with MongoDB Atlas
+- ☁️ MongoDB Atlas cloud database integration
 - 🚀 Live deployment using Vercel
 
 ## 🛠️ Technologies Used
@@ -27,15 +28,15 @@ Cartiva is a full-stack e-commerce web application built with Next.js and MongoD
 | Mongoose | MongoDB object modeling |
 | JavaScript | Application logic |
 | CSS | Styling |
-| Vercel | Deployment and hosting |
 | MongoDB Atlas | Cloud database hosting |
+| Vercel | Deployment and hosting |
 | Git & GitHub | Version control |
 
 ## 🗄️ Database
 
-Cartiva uses MongoDB for storing product and application data.
+Cartiva uses MongoDB to store application data.
 
-- **Local Development:** Local MongoDB database
+- **Local Development:** Local MongoDB
 - **Production:** MongoDB Atlas
 - **Database Name:** `cartiva`
 - **Products Collection:** `products`
@@ -60,7 +61,7 @@ cd cartiva
 npm install
 ```
 
-### 4. Configure environment variables
+### 4. Configure Environment Variables
 
 Create a `.env.local` file in the project root:
 
@@ -70,15 +71,15 @@ MONGODB_URI=mongodb://localhost:27017/cartiva
 
 Make sure your local MongoDB server is running.
 
-Add any other environment variables required by your authentication configuration.
+Add any additional environment variables required by your authentication configuration.
 
-### 5. Start the development server
+### 5. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-Open:
+Open your browser and visit:
 
 ```text
 http://localhost:3000
@@ -88,17 +89,17 @@ http://localhost:3000
 
 Cartiva is deployed using [Vercel](https://vercel.com/).
 
-### Deployment Steps
+### Deployment Process
 
 1. Push the project code to GitHub.
 2. Import the GitHub repository into Vercel.
-3. Configure the required environment variables in Vercel Project Settings.
+3. Configure the required environment variables.
 4. Connect MongoDB Atlas as the production database.
 5. Deploy the application.
 
 ### Production Environment Variables
 
-Configure these in **Vercel → Project Settings → Environment Variables**:
+Configure these under **Vercel → Project Settings → Environment Variables**:
 
 | Variable | Description |
 |---|---|
@@ -106,7 +107,7 @@ Configure these in **Vercel → Project Settings → Environment Variables**:
 | `NEXTAUTH_SECRET` | Authentication secret |
 | `NEXTAUTH_URL` | Production website URL |
 
-Never commit `.env.local` or expose database credentials in your repository.
+**Security:** Never commit `.env.local` or expose database credentials in your public GitHub repository.
 
 ## 📁 Project Structure
 
@@ -114,31 +115,24 @@ Never commit `.env.local` or expose database credentials in your repository.
 cartiva/
 ├── app/
 │   ├── products/
-│   ├── ...
+│   └── ...
 ├── lib/
 │   └── mongodb.js
 ├── models/
 │   └── Product.js
 ├── public/
-├── .env.local
 ├── package.json
 └── README.md
 ```
 
-*The structure above highlights the main project areas; additional folders and routes may exist.*
-
-## 🔐 Security
-
-- Environment variables are used for database configuration.
-- Database credentials should remain private.
-- Production database connections use MongoDB Atlas.
-- `.env.local` should not be committed to GitHub.
+*Simplified overview of the project structure.*
 
 ## 👩‍💻 Developer
 
 **Areej**
 
-GitHub: [@Areej554-dev](https://github.com/Areej554-dev)
+- GitHub: [@Areej554-dev](https://github.com/Areej554-dev)
+- Live Project: [Cartiva](https://cartiva-iota.vercel.app/)
 
 ---
 
